@@ -4,7 +4,8 @@
   "description": "Full stack GraphQL with Apollo and Vue",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/axelvuylsteke/fullstack-graphql-vue/issues"
   },
-  "homepage": "https://github.com/axelvuylsteke/fullstack-graphql-vue#readme"
+  "homepage": "https://github.com/axelvuylsteke/fullstack-graphql-vue#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.8.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "graphql": "^14.5.0",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.5"
+  }
 }
