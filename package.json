@@ -1,0 +1,19 @@
+{
+  "name": "fullstack-graphql-vue",
+  "version": "1.0.0",
+  "description": "Full stack GraphQL with Apollo and Vue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axelvuylsteke/fullstack-graphql-vue.git"
+  },
+  "author": "Axel Vuylsteke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/axelvuylsteke/fullstack-graphql-vue/issues"
+  },
+  "homepage": "https://github.com/axelvuylsteke/fullstack-graphql-vue#readme"
+}
