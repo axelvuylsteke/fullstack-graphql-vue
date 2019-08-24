@@ -2,10 +2,10 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
-    getRace(id: ID!): Race
-    getAthlete(id: ID!): Athlete
-    getAthletes: [Athlete]
-    getRaces: [Race]
+    race(id: ID!): Race
+    athlete(id: ID!): Athlete
+    athletes: [Athlete]
+    races: [Race]
   }
 
   type Race {

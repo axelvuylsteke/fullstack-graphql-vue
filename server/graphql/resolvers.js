@@ -1,41 +1,42 @@
 const races = [
   {
-    id: 0,
+    id: 10,
     name: 'Ironman Frankfurt',
     city: 'Frankfurt'
   },
   {
-    id: 1,
+    id: 11,
     name: 'Ironman Malaysia',
     city: 'Malaysia'
   },
-  { id: 2, name: 'Ironman Nice', city: 'Nice', athletes: [] }
+  { id: 12, name: 'Ironman Nice', city: 'Nice', athleteId: [] }
 ];
 
 const athletes = [
-  { id: 0, name: 'Axel Vuylsteke', country: 'Belgium', races: [] },
-  { id: 1, name: 'Caroline Clijsters', country: 'Belgium' },
-  { id: 2, name: 'Frederik Van Lierde', country: 'Belgium' }
+  { id: 100, name: 'Axel Vuylsteke', country: 'Belgium', raceId: [] },
+  { id: 101, name: 'Caroline Clijsters', country: 'Belgium' },
+  { id: 102, name: 'Frederik Van Lierde', country: 'Belgium' }
 ];
 
-races[2].athletes.push(athletes[0]);
-races[2].athletes.push(athletes[1]);
-races[2].athletes.push(athletes[2]);
+races[2].athleteId.push(athletes[0].id);
+races[2].athleteId.push(athletes[1].id);
+races[2].athleteId.push(athletes[2].id);
 
-console.log(races[2]);
+athletes[0].raceId.push(races[0].id);
+athletes[0].raceId.push(races[2].id);
 
 module.exports = {
   Query: {
-    getRace: (root, args, context) => {
-      return races[args.id];
+    race: (root, args, context) => {
+      return races.find(race => race.id == args.id);
     },
-    getAthlete: (root, args, context) => {
-      return athletes[args.id];
+    athlete: (root, args, context) => {
+      return athletes.find(athlete => athlete.id == args.id);
     },
-    getAthletes: () => {
+    athletes: () => {
       return athletes;
     },
-    getRaces: () => {
+    races: () => {
       return races;
     }
   }
