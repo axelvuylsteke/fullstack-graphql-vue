@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Race = require('../models/race');
 
 const athleteSchema = new Schema({
   name: {
     type: String,
     required: true
   },
-  country: String
-  // races: [{ race: { type: mongoose.Schema.Types.ObjectId, ref: 'Race' } }]
+  country: String,
+  results: [{ type: Schema.Types.ObjectId, ref: 'Result' }]
 });
 
 module.exports = mongoose.model('Athlete', athleteSchema);

@@ -32,8 +32,8 @@ const typeDefs = gql`
 
   type Result {
     _id: ID!
-    athleteId: ID!
-    raceId: ID!
+    athlete: ID!
+    race: ID!
     swim: String
     t1: String
     bike: String
@@ -54,8 +54,8 @@ const typeDefs = gql`
   }
 
   input ResultInput {
-    athleteId: ID!
-    raceId: ID!
+    athlete: ID!
+    race: ID!
     swim: String
     t1: String
     bike: String

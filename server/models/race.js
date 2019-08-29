@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Athlete = require('../models/athlete');
 
 const raceSchema = new Schema({
   name: {
@@ -11,10 +10,8 @@ const raceSchema = new Schema({
     type: String,
     required: true
   },
-  city: String
-  // athletes: [
-  //   { athlete: { type: mongoose.Schema.Types.ObjectId, ref: 'Athlete' } }
-  // ]
+  city: String,
+  athletes: [{ type: Schema.Types.ObjectId, ref: 'Athlete' }]
 });
 
 module.exports = mongoose.model('Race', raceSchema);
