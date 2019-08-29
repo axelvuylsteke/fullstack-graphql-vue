@@ -2,24 +2,66 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
-    race(id: ID!): Race
-    athlete(id: ID!): Athlete
+    athlete(_id: ID!): Athlete
+    race(_id: ID!): Race
+    result(_id: ID!): Result
     athletes: [Athlete]
     races: [Race]
+    results: [Result]
+  }
+  type Mutation {
+    createRace(raceInput: RaceInput!): Race
+    createResult(resultInput: ResultInput!): Result
+    createAthlete(athleteInput: AthleteInput!): Athlete
   }
 
   type Race {
-    id: ID!
-    name: String
+    _id: ID!
+    name: String!
+    year: String!
     city: String
     athletes: [Athlete]
   }
 
   type Athlete {
-    id: ID!
-    name: String
+    _id: ID!
+    name: String!
     country: String
-    races: [Race]
+    result: [Result]
+  }
+
+  type Result {
+    _id: ID!
+    athleteId: ID!
+    raceId: ID!
+    swim: String
+    t1: String
+    bike: String
+    t2: String
+    run: String
+    total: String
+  }
+
+  input AthleteInput {
+    name: String!
+    country: String
+  }
+
+  input RaceInput {
+    name: String!
+    year: String!
+    city: String
+  }
+
+  input ResultInput {
+    athleteId: ID!
+    raceId: ID!
+    swim: String
+    t1: String
+    bike: String
+    t2: String
+    run: String
+    total: String
   }
 `;
 

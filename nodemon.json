@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "axelixx",
+    "MONGO_PASS": "Wynn32017",
+    "PORT": 5050
+  }
+}
