@@ -7,15 +7,22 @@ module.exports = {
     athlete: async (root, args, context) => {
       return await Athlete.findOne({ _id: args._id }).populate('results');
     },
+
     race: async (root, args) => {
       return await Race.findOne({ _id: args._id }).populate('athletes');
     },
+
     result: async (root, args) => {
       return await Result.findOne({ _id: args._id })
         .populate('race')
         .populate('athlete')
         .exec();
     },
+
+    user: async (root, args) => {
+      return await User.findOne({ _id: args._id }).populate('athlete');
+    },
+
     athletes: async () => {
       return await Athlete.find().populate('results');
     },
@@ -29,10 +36,16 @@ module.exports = {
         .populate('race')
         .populate('athlete')
         .exec();
+    },
+
+    users: async () => {
+      return await User.find().populate('athlete');
     }
   },
   Mutation: {
     createRace: async (root, args, context) => {
+      let updatedUser = User.findById(athleteInput.user);
+      //INSERT FUNCTIONALITY FOR ADMIN ROLE
       const race = new Race({
         name: args.raceInput.name,
         year: args.raceInput.year,
@@ -41,11 +54,16 @@ module.exports = {
       return race.save();
     },
     createAthlete: async (root, args, context) => {
-      const athlete = new Athlete({
-        name: args.athleteInput.name,
-        country: args.athleteInput.country
-      });
-      return athlete.save();
+      let updatedUser = User.findById(athleteInput.user);
+      if (updatedUser.athlete) {
+        throw new Error('User has already an athlete');
+      } else {
+        const athlete = new Athlete({
+          name: args.athleteInput.name,
+          country: args.athleteInput.country
+        });
+        return athlete.save();
+      }
     },
     createResult: async (root, args, context) => {
       const resultRace = new Result({
@@ -58,8 +76,8 @@ module.exports = {
         run: args.resultInput.run,
         total: args.resultInput.total
       });
-      updatedAthlete = await Athlete.findById(resultRace.athlete);
-      updatedRace = await Race.findById(resultRace.race);
+      let updatedAthlete = await Athlete.findById(resultRace.athlete);
+      let updatedRace = await Race.findById(resultRace.race);
       if (!updatedAthlete || !updatedRace) {
         throw new Error('Athlete or Race not existing');
       } else {
@@ -71,6 +89,15 @@ module.exports = {
           return result;
         });
       }
+    },
+    createUser: async (root, args, context) => {
+      const user = new User({
+        firstName: args.userInput.firstName,
+        lastName: args.userInput.lastName,
+        email: args.userInput.email,
+        role: args.userInput.role
+      });
+      return user.save();
     }
   }
 };

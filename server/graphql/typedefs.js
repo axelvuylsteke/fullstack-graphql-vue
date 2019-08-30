@@ -5,14 +5,32 @@ const typeDefs = gql`
     athlete(_id: ID!): Athlete
     race(_id: ID!): Race
     result(_id: ID!): Result
+    user(_id: ID!): User
     athletes: [Athlete]
     races: [Race]
     results: [Result]
+    users: [User]
   }
   type Mutation {
     createRace(raceInput: RaceInput!): Race
     createResult(resultInput: ResultInput!): Result
     createAthlete(athleteInput: AthleteInput!): Athlete
+    createUser(userInput: UserInput!): User
+  }
+
+  type User {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    role: String!
+    athlete: Athlete
+  }
+  type Athlete {
+    _id: ID!
+    name: String!
+    country: String
+    results: [Result]
   }
 
   type Race {
@@ -21,13 +39,6 @@ const typeDefs = gql`
     year: String!
     city: String
     athletes: [Athlete]
-  }
-
-  type Athlete {
-    _id: ID!
-    name: String!
-    country: String
-    results: [Result]
   }
 
   type Result {
@@ -42,12 +53,21 @@ const typeDefs = gql`
     total: String
   }
 
+  input UserInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    role: String!
+  }
+
   input AthleteInput {
+    user: ID!
     name: String!
     country: String
   }
 
   input RaceInput {
+    user: ID!
     name: String!
     year: String!
     city: String
