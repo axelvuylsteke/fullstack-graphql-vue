@@ -5,24 +5,30 @@ const Result = require('../models/result');
 module.exports = {
   Query: {
     athlete: async (root, args, context) => {
-      return await Athlete.findOne({ _id: args._id });
+      return await Athlete.findOne({ _id: args._id }).populate('results');
     },
     race: async (root, args) => {
-      return await Race.findOne({ _id: args._id });
+      return await Race.findOne({ _id: args._id }).populate('athletes');
     },
     result: async (root, args) => {
-      return await Result.findOne({ _id: args._id });
+      return await Result.findOne({ _id: args._id })
+        .populate('race')
+        .populate('athlete')
+        .exec();
     },
     athletes: async () => {
-      return await Athlete.find();
+      return await Athlete.find().populate('results');
     },
 
     races: async () => {
-      return await Race.find();
+      return await Race.find().populate('athletes');
     },
 
     results: async () => {
-      return await Result.find();
+      return await Result.find()
+        .populate('race')
+        .populate('athlete')
+        .exec();
     }
   },
   Mutation: {

@@ -20,20 +20,20 @@ const typeDefs = gql`
     name: String!
     year: String!
     city: String
-    athletes: [ID!]
+    athletes: [Athlete]
   }
 
   type Athlete {
     _id: ID!
     name: String!
     country: String
-    result: [ID!]
+    results: [Result]
   }
 
   type Result {
     _id: ID!
-    athlete: ID!
-    race: ID!
+    athlete: Athlete
+    race: Race
     swim: String
     t1: String
     bike: String
