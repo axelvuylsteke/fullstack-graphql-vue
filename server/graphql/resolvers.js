@@ -8,28 +8,21 @@ module.exports = {
       return await Athlete.findOne({ _id: args._id });
     },
     race: async (root, args) => {
-      await Race.findOne({ _id: args._id });
+      return await Race.findOne({ _id: args._id });
     },
     result: async (root, args) => {
       return await Result.findOne({ _id: args._id });
     },
     athletes: async () => {
-      const athletes = await Athlete.find();
-      return athletes.map(athlete => {
-        return { ...athlete._doc };
-      });
+      return await Athlete.find();
     },
+
     races: async () => {
-      const races = await Race.find();
-      return races.map(race => {
-        return { ...race._doc };
-      });
+      return await Race.find();
     },
+
     results: async () => {
-      const results = await Result.find();
-      return results.map(result => {
-        return { ...result._doc };
-      });
+      return await Result.find();
     }
   },
   Mutation: {
@@ -39,32 +32,14 @@ module.exports = {
         year: args.raceInput.year,
         city: args.raceInput.city
       });
-      return race
-        .save()
-        .then(result => {
-          console.log(result);
-          return { ...result._doc };
-        })
-        .catch(err => {
-          console.log(err);
-          throw err;
-        });
+      return race.save();
     },
     createAthlete: async (root, args, context) => {
       const athlete = new Athlete({
         name: args.athleteInput.name,
         country: args.athleteInput.country
       });
-      return athlete
-        .save()
-        .then(result => {
-          console.log(result);
-          return { ...result._doc };
-        })
-        .catch(err => {
-          console.log(err);
-          throw err;
-        });
+      return athlete.save();
     },
     createResult: async (root, args, context) => {
       const resultRace = new Result({
@@ -77,16 +52,19 @@ module.exports = {
         run: args.resultInput.run,
         total: args.resultInput.total
       });
-      return resultRace
-        .save()
-        .then(result => {
-          console.log(result);
-          return { ...result._doc };
-        })
-        .catch(err => {
-          console.log(err);
-          throw err;
+      updatedAthlete = await Athlete.findById(resultRace.athlete);
+      updatedRace = await Race.findById(resultRace.race);
+      if (!updatedAthlete || !updatedRace) {
+        throw new Error('Athlete or Race not existing');
+      } else {
+        return resultRace.save().then(result => {
+          updatedAthlete.results.push(result._id);
+          updatedRace.athletes.push(result.athlete);
+          updatedAthlete.save();
+          updatedRace.save();
+          return result;
         });
+      }
     }
   }
 };
